@@ -1,0 +1,306 @@
+Customer class:
+
+public class Customer 
+{
+    private int custID;
+    private String name;
+    private String PAN;
+    private String Aadhaar;
+    private String address;
+    private String dob;
+    private String phone_no;
+    private java.util.ArrayList<String> nominees = new java.util.ArrayList<>();
+
+
+    public Customer(int custID,String name, String PAN, String Aadhar,String address, String dob, String phone_no)
+    {
+        
+
+        this.name = name;
+        this.PAN = PAN;
+        this.Aadhaar = Aadhar;
+        this.address = address;
+        this.dob = dob;
+        this.phone_no = phone_no;
+    }
+
+
+
+    /* public Customer(int custId, String name, String pan, String aadhaar,
+                    String address, String dob, String phoneNo) {
+        this.custId = custId;
+        this.name = name;
+        this.pan = pan;
+        this.aadhaar = aadhaar;
+        this.address = address;
+        this.dob = dob;
+        this.phoneNo = phoneNo;
+    }
+
+    public int getCustId() {
+        return custId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void displayCustomer() {
+        System.out.println("Customer ID: " + custId);
+        System.out.println("Name: " + name);
+        System.out.println("PAN: " + pan);
+        System.out.println("Aadhaar: " + aadhaar);
+        System.out.println("Phone: " + phoneNo);
+        System.out.println("----------------------------");
+    }
+ 
+    public void setCustID(int custID)
+    {
+        this.custID = custID;
+    }
+
+    public void getCustID()
+    {
+        System.err.println(custID);
+    }
+
+    public void setPAN(String PAN)
+    {
+        this.PAN = PAN;
+    }
+
+    public void getPAN()
+    {
+        System.err.println(PAN);
+    }
+
+    public void setAadhar(long Aadhar)
+    {
+        this.Aadhar = Aadhar;
+    }
+
+    public void getAadhar()
+    {
+        System.err.println(Aadhar);
+    }*/
+
+
+    public void addNominees(String... names) {
+    for (String n : names) {
+        nominees.add(n);
+    }
+}
+
+    public void displayCustomer() {
+        System.out.println("Customer ID: " + custID);
+        System.out.println("Name: " + name);
+        System.out.println("PAN: " + PAN);
+        System.out.println("Aadhaar: " + Aadhaar);
+        System.out.println("Phone: " + phone_no);
+        System.out.println("Nominees: ");
+       for (String n : nominees) 
+        {
+            System.out.println(n);
+        }
+    }}
+
+SavingsAccount class:
+ public class SavingsAccount extends Account {
+    private double interestRate;
+    private double minBalance;
+
+    public SavingsAccount(String accNo, double balance, double interestRate, double minBalance) {
+        super(accNo, balance, "Savings");
+        this.interestRate = interestRate;
+        this.minBalance = minBalance;
+    }
+
+   
+    public void debit(double amount) {
+        if (balance - amount >= minBalance) {
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount);
+        } else {
+            System.out.println("Minimum balance violation!");
+        }
+    }
+}
+    
+LoanAccount class:
+public class LoanAccount extends Account {
+    private double loanAmount;
+
+    public LoanAccount(String accNo, double loanAmount) {
+        super(accNo, 0, "Loan");
+        this.loanAmount = loanAmount;
+    }
+
+    public void takeLoan(double amount) {
+        loanAmount += amount;
+        System.out.println("Loan taken: " + amount);
+    }
+
+    public void payLoan(double amount) {
+        if (amount <= loanAmount) {
+            loanAmount -= amount;
+            System.out.println("Loan paid: " + amount);
+        } else {
+            System.out.println("Amount exceeds loan!");
+        }
+    }
+
+    public void showLoan() {
+        System.out.println("Remaining Loan: " + loanAmount);
+    }
+}
+
+
+Account class:
+
+public class Account 
+{
+    protected String accNo;
+    protected double balance;
+    protected String accType; //Individual,joint,business
+
+    public Account(String accNo, double balance, String accType)
+    {
+        
+        this.accNo = accNo;
+        this.balance = balance;
+        this.accType = accType;
+    }
+
+    
+    public void checkBalance()
+    {
+        System.out.println("Balance: " + balance);
+    }
+
+    public void credit(double amount)
+    {
+        balance += amount;
+        System.out.println("Deposited: " + amount);
+    }
+
+    public void debit(double amount)
+    {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount);
+        } else {
+            System.out.println("Insufficient Balance!");
+        }
+    }
+
+    public void createFD(double amount, double years)
+    {
+        System.out.println("FD account opened with amount " + amount + "and for " + years + "years");
+    }
+
+    public void closeAccount() {
+    if (balance == 0) {
+        System.out.println("Account closed successfully.");
+    } else {
+        System.out.println("Withdraw all money before closing account!");
+    }
+}
+
+}
+
+Main class:
+import java.util.Scanner;
+
+public class Main 
+{
+
+    public static void main(String[] args) 
+    {
+        Scanner sc = new Scanner(System.in);
+        
+        
+        Account acc = new SavingsAccount("101", 5000, 4.5, 1000);
+
+        System.out.println("Creating an account: ");
+        Customer c1 = new Customer(1, "Rahul", "PAN123", "AAD123",
+                "Mumbai", "01-01-2000", "9999999999");
+
+        while(true){
+        System.out.println("Choose an option from the menu: ");
+        System.out.println("1. Deposit money");
+        System.out.println("2. Withdraw money");
+        System.out.println("3. Check balance");
+        System.out.println("4. Add nominees");
+        System.out.println("5. Display Customer");
+        System.out.println("6. Take loan");
+        System.out.println("7. Pay loan amount");
+        System.out.println("8. Close account");
+        System.out.println("9. Exit");
+
+        int choice = sc.nextInt();
+
+        System.out.println("You selected option: " + choice);
+
+        LoanAccount loanAcc = new LoanAccount("L101", 0);
+
+        switch(choice) 
+        {
+
+            case 1:
+                System.out.println("Enter amount");
+                double dep = sc.nextDouble();
+                acc.credit(dep);
+                break;
+             
+            case 2:
+                System.out.print("Enter amount: ");
+                 double wd = sc.nextDouble();
+                 acc.debit(wd);
+                 break;
+
+            case 3:
+                acc.checkBalance();
+                 break;
+
+            case 4:
+                sc.nextLine(); // clear buffer
+
+                System.out.print("Enter nominee name: ");
+                String nom = sc.nextLine();
+
+                c1.addNominees(nom); // ✅ PASS the value
+
+                break;
+
+            case 5:
+                c1.displayCustomer();
+                break;
+
+            case 6:
+                System.out.print("Enter loan amount: ");
+                double loanAmt = sc.nextDouble();
+                loanAcc.takeLoan(loanAmt);
+                break;
+
+            case 7:
+                System.out.print("Enter amount to pay: ");
+                double payAmt = sc.nextDouble();
+                loanAcc.payLoan(payAmt);
+                break;
+
+            case 8:
+                acc.closeAccount();
+                break;
+
+            case 9:
+                System.out.println("Exiting...");
+                sc.close();
+                return;
+
+
+            default:
+                System.out.println("Invalid choice");
+}
+        
+    }
+}}
