@@ -1,0 +1,140 @@
+Salary Structure Class
+
+class SalaryStructure { double basicPay; double medicalCover; double lifeCover; double retirementFund; int leaveDays;
+
+public SalaryStructure(double basicPay, double medicalCover, double lifeCover, double retirementFund, int leaveDays) {
+this.basicPay = basicPay; this.medicalCover = medicalCover; this.lifeCover = lifeCover; this.retirementFund = retirementFund; this.leaveDays = leaveDays;
+}
+}
+
+
+Abstract Worker Class
+
+abstract class Worker { protected String empName; protected String taxId;
+ 
+protected String dateOfJoin; protected String jobTitle; protected int workerId;
+
+public Worker(String empName, String taxId, String dateOfJoin, String jobTitle, int workerId) { this.empName = empName;
+this.taxId = taxId; this.dateOfJoin = dateOfJoin; this.jobTitle = jobTitle; this.workerId = workerId;
+}
+
+
+abstract double calculateSalary(SalaryStructure s); abstract double calculateExtras(SalaryStructure s);
+
+public void printInfo() { System.out.println("\nWorker ID: " + workerId); System.out.println("Name: " + empName); System.out.println("Job Title: " + jobTitle);
+}
+}
+
+
+Permanent Employee Class
+
+class PermanentEmployee extends Worker { protected double bonus;
+protected String department;
+
+
+public PermanentEmployee(String empName, String taxId, String dateOfJoin, String jobTitle, int workerId, double bonus, String department) {
+super(empName, taxId, dateOfJoin, jobTitle, workerId);
+ 
+this.bonus = bonus; this.department = department;
+}
+
+
+public double calculateExtras(SalaryStructure s) {
+return s.medicalCover + s.lifeCover + s.retirementFund;
+}
+
+
+public double calculateSalary(SalaryStructure s) { return s.basicPay + bonus + calculateExtras(s);
+}
+}
+
+
+Team Lead Class
+
+class TeamLead extends PermanentEmployee { private double travelAllowance;
+private double communicationAllowance;
+
+
+public TeamLead(String empName, String taxId, String dateOfJoin, String jobTitle, int workerId, double bonus, String department,
+double travelAllowance, double communicationAllowance) {
+
+
+super(empName, taxId, dateOfJoin, jobTitle, workerId, bonus, department); this.travelAllowance = travelAllowance;
+this.communicationAllowance = communicationAllowance;
+}
+
+
+public double calculateExtras(SalaryStructure s) {
+return super.calculateExtras(s) + travelAllowance + communicationAllowance;
+}
+ 
+public double calculateSalary(SalaryStructure s) { return s.basicPay + bonus + calculateExtras(s);
+}
+}
+
+
+
+
+Freelance Worker Class
+
+class FreelanceWorker extends Worker { private int totalHours;
+private double ratePerHour;
+
+
+public FreelanceWorker(String empName, String taxId, String dateOfJoin, String jobTitle, int workerId, int totalHours, double ratePerHour) {
+super(empName, taxId, dateOfJoin, jobTitle, workerId); this.totalHours = totalHours;
+this.ratePerHour = ratePerHour;
+}
+
+
+public double calculateExtras(SalaryStructure s) {
+return 0; // freelancers don’t get benefits
+}
+
+
+public double calculateSalary(SalaryStructure s) { return totalHours * ratePerHour;
+}
+}
+
+
+Driver Class
+ 
+public class CompanyApp {
+public static void main(String[] args) {
+
+
+SalaryStructure structure = new SalaryStructure(550000, 18000, 12000, 45000, 18);
+
+
+PermanentEmployee empA = new PermanentEmployee( "Amit", "XYZAB1234K", "12-02-2021", "Developer", 201,
+40000, "IT"
+);
+
+
+FreelanceWorker empB = new FreelanceWorker(
+"Sneha", "QWERT5678P", "20-06-2023", "Designer", 202,
+100, 600
+);
+
+
+TeamLead lead = new TeamLead(
+"Rohit", "ASDFG9876L", "05-08-2019", "Team Lead", 203,
+90000, "IT",
+25000, 10000
+);
+
+
+System.out.println("\n--- Permanent Employee ---"); empA.printInfo();
+System.out.println("Total Salary: " + empA.calculateSalary(structure));
+
+
+System.out.println("\n--- Freelance Worker ---"); empB.printInfo();
+System.out.println("Total Salary: " + empB.calculateSalary(structure));
+
+
+System.out.println("\n--- Team Lead ---");
+ 
+lead.printInfo();
+System.out.println("Total Salary: " + lead.calculateSalary(structure));
+}
+}
